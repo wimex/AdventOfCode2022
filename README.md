@@ -2,6 +2,9 @@
 It's that time of the year again! Random solutions to the Advent of Code challenge (https://adventofcode.com).
 This year, it's in ... (rolls dice) ... RUBY!
 
+## 😰 Mistakes were made
+This year, I'm also trying something new: I'll make a commit whenever I try to submit a new answer. If the answer is correct, then it's going to be the last commit, if not, the progress can be inspected as I (hopefully) figure out what's wrong with it. 
+
 ## 🎬 To get started
 You'll need `Ruby >= 3.1`. The easiest way to setup the environment is to use `asdf`, the `.tool-versions` file will select the preferred version automatically.
 
