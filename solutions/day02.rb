@@ -1,4 +1,4 @@
-# frozen_string_literal
+# frozen_string_literal: true
 
 table = [
   [{ s: 'A Y', p: 2 }, { s: 'B Z', p: 3 }, { s: 'C X', p: 1 }], # win

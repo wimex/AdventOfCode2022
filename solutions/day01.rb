@@ -1,4 +1,4 @@
-# frozen_string_literals
+# frozen_string_literal: true
 
 lines = File.read('../inputs/day01.txt')
 chunks = lines
