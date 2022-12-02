@@ -3,7 +3,7 @@ It's that time of the year again! Random solutions to the Advent of Code challen
 This year, it's in ... (rolls dice) ... RUBY!
 
 ## 🎬 To get started
-You'll need Ruby `>= 3.1`. The easiest way to setup the environment is to use `asdf`, the `.tool-versions` file will select the preferred version automatically.
+You'll need `Ruby >= 3.1`. The easiest way to setup the environment is to use `asdf`, the `.tool-versions` file will select the preferred version automatically.
 
 After cloning the repository, enter into the solutions directory and type `ruby dayXX.rb` to print the answer for the questions. If you want to run the code on a different input, replace the relevant files in the `inputs` directory.
 
