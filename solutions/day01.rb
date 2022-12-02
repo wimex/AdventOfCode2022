@@ -8,6 +8,8 @@ chunks = lines
 
 ans1 = chunks
          .map { |a| a.sum }
-         .max
+         .sort
+         .reverse
 
-pp "Answer 1: #{ans1}"
+pp "Answer 1: #{ans1[0]}"
+pp "Answer 2: #{ans1[0] + ans1[1] + ans1[2]}"
