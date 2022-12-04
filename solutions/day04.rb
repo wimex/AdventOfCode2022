@@ -6,8 +6,8 @@ chunks = lines
            .map { |l| l.split(",") }
            .map { |s| { a: s[0].split("-"), b: s[1].split("-") } }
            .map { |s| {
-             a: { l: s[:a][0], r: s[:a][1] },
-             b: { l: s[:b][0], r: s[:b][1] }
+             a: { l: s[:a][0].to_i, r: s[:a][1].to_i },
+             b: { l: s[:b][0].to_i, r: s[:b][1].to_i }
            } }
 
 answer1 = chunks
