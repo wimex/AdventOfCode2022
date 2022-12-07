@@ -5,6 +5,10 @@ class ElfNode
 end
 
 class ElfFile < ElfNode
+  def flatten_by_size(limit, output)
+    output
+  end
+
   def initialize(parent, name, size)
     @parent = parent
     @name = name
@@ -15,10 +19,16 @@ end
 class ElfDirectory < ElfNode
   attr_accessor :children
 
+  def flatten_by_size(limit, output)
+    @children.each do |c|
+      c.flatten_by_size(limit, output)
+    end
+
+    output.push(self) if size <= limit
+  end
+
   def size
-    ds = @children.filter { |c| c.class == ElfDirectory }.map { |c| c.size }.sum
-    fs = @children.filter { |c| c.class == ElfFile }.map { |c| c.size }.sum
-    ds + ((ds + fs) <= 100000 ? fs : 0)
+    @children.map { |c| c.size }.sum
   end
 
   def mkfile(name, size)
@@ -95,6 +105,7 @@ chunks.each do |c|
   convert_to_command(filesystem, parts) if parts[0] != "$"
 end
 
-answer1 = filesystem.size
+answer1 = []
+filesystem.tree.flatten_by_size(100000, answer1)
 
-puts "Answer 1: #{answer1}"
+puts "Answer 1: #{answer1.sum{|s| s.size}}"
