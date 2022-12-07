@@ -16,7 +16,9 @@ class ElfDirectory < ElfNode
   attr_accessor :children
 
   def size
-    @children.map { |c| c.size }.sum
+    ds = @children.filter { |c| c.class == ElfDirectory }.map { |c| c.size }.sum
+    fs = @children.filter { |c| c.class == ElfFile }.map { |c| c.size }.sum
+    ds + ((ds + fs) <= 100000 ? fs : 0)
   end
 
   def mkfile(name, size)
