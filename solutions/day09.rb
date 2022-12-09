@@ -18,17 +18,18 @@ lines.each do |s|
   cnt = s[:c]
 
   (0..cnt - 1).each do |_|
-    visits |= [tail]
-    xdist = (head[:x] - tail[:x]).abs
-    ydist = (head[:y] - tail[:y]).abs
-
-    tail = memo if xdist >= 2 || ydist >= 2
-    memo = head
-
     head = {
       x: if dir == 'R' then head[:x] + 1 elsif dir == 'L' then head[:x] - 1 else head[:x] end,
       y: if dir == 'U' then head[:y] - 1 elsif dir == 'D' then head[:y] + 1 else head[:y] end
     }
+
+    xdist = (head[:x] - tail[:x]).abs
+    ydist = (head[:y] - tail[:y]).abs
+
+    tail = memo if xdist >= 2 || ydist >= 2
+    visits |= [tail]
+
+    memo = head
   end
 end
 
