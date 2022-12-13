@@ -21,8 +21,7 @@ def compare_items(left, right)
     validation.push(current)
   end
 
-  result = validation.detect { |v| v != 0 }
-  result
+  validation.detect { |v| v != 0 } || 0
 end
 
 pairs = File.read('../inputs/day13.txt')
