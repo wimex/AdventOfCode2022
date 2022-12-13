@@ -3,23 +3,25 @@ require 'json'
 
 def compare_items(left, right)
   return 0 if left.nil? && right.nil?
-  return -1 if !left.nil? && right.nil?
-  return 1 if left.nil? && !right.nil?
+  return -1 if left.nil? && !right.nil?
+  return 1 if !left.nil? && right.nil?
 
-  return -1 if left < right if left.is_a?(Integer) && right.is_a?(Integer)
-  return 0 if left == right if left.is_a?(Integer) && right.is_a?(Integer)
-  return 1 if left > right if left.is_a?(Integer) && right.is_a?(Integer)
+  return 0 if left.is_a?(Integer) && right.is_a?(Integer) && left == right
+  return -1 if left.is_a?(Integer) && right.is_a?(Integer) && left < right
+  return 1 if left.is_a?(Integer) && right.is_a?(Integer) && left > right
 
   return compare_items([left], right) if left.is_a?(Integer) && !right.is_a?(Integer)
   return compare_items(left, [right]) if !left.is_a?(Integer) && right.is_a?(Integer)
 
-  valid = []
-  left.each_index do |index|
-    current = compare_items(left[index], right[index])
-    valid.push(current)
+  validation = []
+  (0..[left.length, right.length].max - 1).each do |index|
+    item1 = left[index]
+    item2 = right[index]
+    current = compare_items(item1, item2)
+    validation.push(current)
   end
 
-  result = valid.detect { |v| v != 0 }
+  result = validation.detect { |v| v != 0 }
   result
 end
 
