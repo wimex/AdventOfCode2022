@@ -5,12 +5,15 @@ def compare_items(left, right)
   return true if !left.nil? && right.nil?
   return false if left.nil? && !right.nil?
 
-  return left < right if left.is_a?(Integer) && right.is_a?(Integer)
+  return true if left < right if left.is_a?(Integer) && right.is_a?(Integer)
+  return true if left == right if left.is_a?(Integer) && right.is_a?(Integer)
+  return false if left > right if left.is_a?(Integer) && right.is_a?(Integer)
+
   return compare_items([left], right) if left.is_a?(Integer) && !right.is_a?(Integer)
   return compare_items(left, [right]) if !left.is_a?(Integer) && right.is_a?(Integer)
 
   valid = true
-  left.each_with_index do |item, index|
+  left.each_index do |index|
     valid = valid && compare_items(left[index], right[index])
     return false unless valid
   end
