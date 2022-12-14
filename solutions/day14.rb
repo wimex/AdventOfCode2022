@@ -5,9 +5,9 @@ def move_sand(screen, sand)
   y = sand[:y]
   return [true, -1, -1] if x + 1 >= 1000 || y + 1 >= 1000
 
-  return [false, x, y + 1] if screen[y + 1][x] == "."
-  return [false, x - 1, y + 1] if screen[y + 1][x - 1] == "."
-  return [false, x + 1, y + 1] if screen[y + 1][x + 1] == "."
+  return [false, x, y + 1] if screen[y + 1][x] == "." || screen[y + 1][x] == "~"
+  return [false, x - 1, y + 1] if screen[y + 1][x - 1] == "." || screen[y + 1][x - 1] == "~"
+  return [false, x + 1, y + 1] if screen[y + 1][x + 1] == "." || screen[y + 1][x + 1] == "~"
 
   [true, x, y]
 end
@@ -20,6 +20,8 @@ def simulate_sand(screen, emitter)
     return false if stuck && x < 0 || y < 0
 
     screen[y][x] = "o" if stuck
+    screen[y][x] = "~" if !stuck
+
     sand = { x: x, y: y }
   end
 
@@ -42,7 +44,7 @@ coords.each do |line|
       y = coord[0][1]
       screen[y][x] = "#"
     end
-    0.step(to: ydiff.abs, by: ydiff < 0 ? -1 : 1).each do |m|
+    0.step(to: ydiff, by: ydiff < 0 ? -1 : 1).each do |m|
       x = coord[0][0]
       y = coord[0][1] + m
       screen[y][x] = "#"
@@ -56,4 +58,3 @@ while simulate_sand(screen, { x: 500, y: 0 })
 end
 
 puts "Answer 1: #{answer1}"
-File.open("dump.txt",'w'){ |f| f << screen.map{ |row| row.join() }.join("\n") }
