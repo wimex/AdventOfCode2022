@@ -1,13 +1,17 @@
 # frozen_string_literal: true
 
-def find_optimal(topography, working, cache, position, open, time, rate, amount)
+def find_optimal(topography, working, cache, position, open, time, rate, amount, routes)
   total_if_staying = amount + time * rate
+  open_if_moving = position == "AA".to_sym ? open : open + [position]
 
   return [amount, open] if time == 0
   return [total_if_staying, open] if open.length == working.length + 1
 
+  route_key = open.sort.join('_').to_sym
+  routes[route_key] = total_if_staying if open.length != 0
+
   candidates = working.filter { |w, _| w != position && !open.include?(w) }
-  return [total_if_staying, open + [position]] if candidates.length == 0
+  return [total_if_staying, open_if_moving] if candidates.length == 0
 
   max = { a: amount + time * rate, o: open }
   candidates.each do |candidate, _|
@@ -17,7 +21,7 @@ def find_optimal(topography, working, cache, position, open, time, rate, amount)
     next if distance.nil?
     next if remaining < 0
 
-    a, o = find_optimal(topography, working, cache, candidate, open + [position], remaining, rate + topography[candidate][:r], amount + rate * (distance + 1))
+    a, o = find_optimal(topography, working, cache, candidate, open_if_moving, remaining, rate + topography[candidate][:r], amount + rate * (distance + 1), routes)
     max = { a: a, o: o } if a > max[:a]
   end
 
@@ -70,7 +74,20 @@ end
 # cache = File.open("cache.txt", "rb") { |f| Marshal.load(f) }
 
 working = topography.filter { |_, v| v[:r] > 0 }
-answer1, valves1 = find_optimal(topography, working, cache, start, [], 30, 0, 0)
+routes = {}
+answer1, valves1 = find_optimal(topography, working, cache, start, [], 26, 0, 0, routes)
+
+max = 0
+routes.keys.combination(2) do |combination|
+  r1 = combination[0].to_s.split('_')
+  r2 = combination[1].to_s.split('_')
+  next if (r1 & r2).length > 0
+
+  val = routes[combination[0]] + routes[combination[1]]
+  max = val if val > max
+end
+
+pp max
 
 puts "Answer 1: #{answer1}"
 puts "Opened valves: "
